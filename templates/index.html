@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentHub | Student Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-mark">S</div>
+                <div>
+                    <strong>StudentHub</strong>
+                    <span>Management System</span>
+                </div>
+            </div>
+
+            <nav>
+                <p class="nav-label">MAIN MENU</p>
+                <a class="nav-item active" href="#dashboard" data-section="dashboard"><span>⌂</span> Dashboard</a>
+                <a class="nav-item" href="#students" data-section="students"><span>▣</span> Students</a>
+                <a class="nav-item" href="#add" data-section="add"><span>＋</span> Add Student</a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="tech-card">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>System Online</strong>
+                        <small>Flask + SQLite</small>
+                    </div>
+                </div>
+                <p class="sidebar-note">Full-stack mini project</p>
+            </div>
+        </aside>
+
+        <div class="main-area">
+            <header class="topbar">
+                <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+                <div class="topbar-title">
+                    <span class="breadcrumb">Workspace /</span>
+                    <strong>Student Dashboard</strong>
+                </div>
+                <button class="theme-btn" id="themeBtn" title="Toggle theme">☾</button>
+            </header>
+
+            <main class="content" id="dashboard">
+                <section class="hero">
+                    <div>
+                        <span class="eyebrow">STUDENT MANAGEMENT</span>
+                        <h1>Good day 👋</h1>
+                        <p>Manage student records, track performance, and keep everything organized.</p>
+                    </div>
+                    <button class="hero-button" id="heroAddBtn">＋ Add New Student</button>
+                </section>
+
+                <section class="stats-grid" aria-label="Student statistics">
+                    <div class="stat-card blue">
+                        <div class="stat-icon">👥</div>
+                        <div><span>Total Students</span><strong id="totalStudents">0</strong><small>Registered records</small></div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-icon">◈</div>
+                        <div><span>Average Marks</span><strong id="averageMarks">0%</strong><small>Overall performance</small></div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-icon">✓</div>
+                        <div><span>Passing Students</span><strong id="passingStudents">0</strong><small>Marks ≥ 40</small></div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-icon">★</div>
+                        <div><span>Top Performer</span><strong id="topPerformer">—</strong><small id="topMarks">Add students to see</small></div>
+                    </div>
+                </section>
+
+                <section class="workspace" id="add">
+                    <div class="card form-card">
+                        <div class="section-heading">
+                            <div class="heading-icon">＋</div>
+                            <div>
+                                <h2 id="formTitle">Add Student</h2>
+                                <p>Enter student information below.</p>
+                            </div>
+                        </div>
+
+                        <form id="studentForm" novalidate>
+                            <input type="hidden" id="studentId">
+
+                            <div class="field">
+                                <label for="name">Student Name</label>
+                                <div class="input-wrap"><span>👤</span><input id="name" type="text" placeholder="e.g. Rahul Sharma" autocomplete="off" required></div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="field">
+                                    <label for="roll_no">Roll Number</label>
+                                    <div class="input-wrap"><span>#</span><input id="roll_no" type="text" placeholder="e.g. 101" autocomplete="off" required></div>
+                                </div>
+                                <div class="field">
+                                    <label for="student_class">Class</label>
+                                    <div class="input-wrap"><span>⌂</span><input id="student_class" type="text" placeholder="e.g. ECE-A" required></div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="field">
+                                    <label for="marks">Marks <small>(0–100)</small></label>
+                                    <div class="input-wrap"><span>％</span><input id="marks" type="number" min="0" max="100" step="0.01" placeholder="e.g. 85" required></div>
+                                </div>
+                                <div class="field">
+                                    <label for="contact">Contact Number</label>
+                                    <div class="input-wrap"><span>☎</span><input id="contact" type="tel" maxlength="10" inputmode="numeric" placeholder="10 digit number" required></div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="primary" type="submit" id="submitBtn">Add Student</button>
+                                <button class="secondary hidden" type="button" id="cancelBtn">Cancel</button>
+                            </div>
+                        </form>
+                        <div id="message" class="message" role="status"></div>
+                    </div>
+
+                    <div class="card info-card">
+                        <div class="info-top">
+                            <span class="mini-label">QUICK GUIDE</span>
+                            <div class="guide-icon">✦</div>
+                        </div>
+                        <h2>Keep records clean</h2>
+                        <p>Use unique roll numbers and valid contact details. Marks must be between 0 and 100.</p>
+                        <div class="guide-list">
+                            <div><span>01</span><p><strong>Add</strong> a student using the form.</p></div>
+                            <div><span>02</span><p><strong>Search</strong> by name or roll number.</p></div>
+                            <div><span>03</span><p><strong>Edit</strong> or <strong>delete</strong> records anytime.</p></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card records-card" id="students">
+                    <div class="records-header">
+                        <div>
+                            <span class="mini-label">DATABASE RECORDS</span>
+                            <h2>All Students</h2>
+                            <p>View and manage every student stored in SQLite.</p>
+                        </div>
+                        <div class="toolbar">
+                            <div class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="Search name or roll no..." autocomplete="off"></div>
+                            <button class="refresh-btn" id="refreshBtn" title="Refresh records">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Roll No.</th>
+                                    <th>Class</th>
+                                    <th>Performance</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentTable"></tbody>
+                        </table>
+                        <div id="emptyState" class="empty-state">
+                            <div class="empty-icon">⌁</div>
+                            <h3>No student records found</h3>
+                            <p>Add a student or try a different search.</p>
+                            <button class="secondary" id="emptyAddBtn">＋ Add Student</button>
+                        </div>
+                    </div>
+                </section>
+
+                <footer>StudentHub • Mini Project • Flask + SQLite + JavaScript</footer>
+            </main>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <div id="confirmModal" class="modal hidden">
+        <div class="modal-box">
+            <div class="modal-icon">!</div>
+            <h3>Delete student?</h3>
+            <p>This action will permanently remove the selected student record.</p>
+            <div class="modal-actions">
+                <button class="secondary" id="modalCancel">Cancel</button>
+                <button class="danger" id="modalDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
